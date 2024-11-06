@@ -1,0 +1,55 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
+public class 치킨배달15686 {
+	static int result;
+
+	public static void main(String[] args) throws Exception{
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(in.readLine(), " ");
+		int N = Integer.parseInt(st.nextToken());
+		int M = Integer.parseInt(st.nextToken());
+		List<Integer[]> house = new ArrayList<>();
+		List<Integer[]> gage = new ArrayList<>();
+		
+		for (int i = 0; i < N; i++) {
+			st = new StringTokenizer(in.readLine(), " ");
+			for (int j = 0; j < M; j++) {
+				int migi = Integer.parseInt(st.nextToken());
+				if (migi == 1) {
+					house.add(new Integer[] {i, j});
+				}
+				else if (migi == 2) {
+					gage.add(new Integer[] {i, j});
+				}
+			}
+		}
+		
+		result = Integer.MAX_VALUE;
+		
+		combination(house, gage, M, 1, result, 0, -1);
+		System.out.println(result);
+	}
+	
+	static void combination(List<Integer[]> house, List<Integer[]> gage, int M, int dep, int result, int dis, int start) {
+		
+		if (dep == M) {
+			result = Math.min(result, dis);
+			return;
+		}
+		
+		for (int i = start + 1; i < gage.size(); i++) {
+			for (int j = 0; j < house.size(); j++) {
+				dis += distance(house.get(j), gage.get(i));
+			}
+			combination(house, gage, M, dep + 1, dis, 0, i);
+		}
+	}
+	
+	static int distance(Integer[] house, Integer[] gage) {
+		return Math.abs(house[0] - gage[0]) + Math.abs(house[1] - gage[1]);
+	}
+}

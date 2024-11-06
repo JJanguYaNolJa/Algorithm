@@ -1,0 +1,52 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
+public class 물놀이10966 {
+
+	public static void main(String[] args) throws Exception{
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		int T = Integer.parseInt(in.readLine());
+		
+		for (int t = 1; t <= T; t++) {
+			sb.append("#" + t + " ");
+			StringTokenizer st = new StringTokenizer(in.readLine(), " ");
+			int N = Integer.parseInt(st.nextToken());
+			int M = Integer.parseInt(st.nextToken());
+			List<int[]> water = new ArrayList<>();
+			String[][] map = new String[N][M];
+			int result = 0;
+			
+			for (int i = 0; i < N; i++) {
+				st = new StringTokenizer(in.readLine());
+				for (int j = 0; j < M; j++) {
+					String kan = st.nextToken();
+					map[i][i] = kan;
+					if (kan.equals("W")) {
+						int[] w = {i, j};
+						water.add(w);
+					}
+				}
+			}
+			
+			for (int i = 0; i < N; i++) {
+				for (int j = 0; j < M; j++) {
+					if (map[i][j].equals("L")) {
+						int chai = Integer.MAX_VALUE;
+						for (int k = 0; k < water.size(); k++) {
+							int[] migi = water.get(k);
+							chai = Math.min(chai, (Math.abs(i - migi[0]) + Math.abs(j - migi[1])));
+						}
+						result += chai;
+					}
+				}
+			}
+			sb.append(result + "\n");
+		}
+		
+		System.out.println(sb);
+	}
+}
