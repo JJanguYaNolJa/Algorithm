@@ -1,0 +1,77 @@
+import java.util.Scanner;
+
+public class gptHamtori {
+    static int N, X, M;
+    static int[] cages; // 각 우리에 있는 햄스터 수
+    static int[][] records; // 경근이의 기록
+    static int[] bestCages; // 최적의 햄스터 배치
+    static int maxHamsters = -1; // 가장 많은 햄스터 수
+    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt(); // 테스트 케이스 수
+
+        for (int t = 1; t <= T; t++) {
+            N = sc.nextInt();
+            X = sc.nextInt();
+            M = sc.nextInt();
+
+            cages = new int[N + 1];
+            records = new int[M][3];
+            bestCages = new int[N + 1];
+            maxHamsters = -1;
+
+            for (int i = 0; i < M; i++) {
+                records[i][0] = sc.nextInt();
+                records[i][1] = sc.nextInt();
+                records[i][2] = sc.nextInt();
+            }
+
+            backtrack(1, 0);
+
+            System.out.print("#" + t + " ");
+            if (maxHamsters == -1) {
+                System.out.println("-1");
+            } else {
+                for (int i = 1; i <= N; i++) {
+                    System.out.print(bestCages[i] + " ");
+                }
+                System.out.println();
+            }
+        }
+        sc.close();
+    }
+
+    // 백트래킹 함수
+    static void backtrack(int cageIndex, int currentHamsterCount) {
+        if (cageIndex == N + 1) { // 모든 우리에 대한 배치를 완료했을 때
+            if (validateRecords() && currentHamsterCount > maxHamsters) {
+                maxHamsters = currentHamsterCount;
+                System.arraycopy(cages, 0, bestCages, 0, N + 1);
+            }
+            return;
+        }
+
+        for (int i = 0; i <= X; i++) { // 각 우리에 0부터 X마리까지 햄스터 배치 시도
+            cages[cageIndex] = i;
+            backtrack(cageIndex + 1, currentHamsterCount + i);
+        }
+    }
+
+    // 경근이의 기록을 검증하는 함수
+    static boolean validateRecords() {
+        for (int[] record : records) {
+            int start = record[0];
+            int end = record[1];
+            int sum = record[2];
+            int count = 0;
+
+            for (int i = start; i <= end; i++) {
+                count += cages[i];
+            }
+
+            if (count != sum) return false; // 기록과 일치하지 않으면 false 반환
+        }
+        return true;
+    }
+}
