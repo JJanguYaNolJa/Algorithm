@@ -69,22 +69,22 @@ public class 햄토리8275 {
 				}
 
 				if (value != 0) {
-					migi = (i > 0 && end >= line[i - 1][0] - 1 && end <= line[i - 1][1] - 1);
-					if (migi) {
-						int add = Math.min(limit, value);
-						result[start] = add;
-						value -= add;
-						
-						for (int j = end; j > start; j++) {
-							
-						}
-					}
+//					migi = (i > 0 && end >= line[i - 1][0] - 1 && end <= line[i - 1][1] - 1);
+//					if (migi) {
+//						int preValue = line[i - 1][2] - value;
+//						
+//						for (int k = end + 1; k <= line[i - 1][1] - 1; k++) {
+//							int minus = Math.min(preValue, result[k]);
+//							result[k] = minus;
+//							preValue -= minus;
+//						}
+//					}
 					
-					else {
+//					else {
 						possible = false;
 						sb.append(-1 + "\n");
 						break;
-					}
+//					}
 				}
 			}
 
